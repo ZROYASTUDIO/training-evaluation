@@ -1113,9 +1113,167 @@ renderCourses();
 renderQuestions();
 
 renderAdmin();
+async function sendEvaluationToSupabase(event) {
+  event.preventDefault();
 
+  const form = event.target;
+  const formData = new FormData(form);
 
+  const kind = document.getElementById("kind").value;
+
+  const groups =
+    kind === "lecturer"
+      ? lecturerQuestions
+      : programQuestions;
+
+  const answers = {};
+  let index = 0;
+
+  for (const questions of Object.values(groups)) {
+    for (const question of questions) {
+      answers[question] = Number(
+        formData.get("q" + index++)
+      );
+    }
+  }
+
+  const course =
+    courses[
+      Number(document.getElementById("course").value)
+    ];
+
+  const notes =
+    kind === "program"
+      ? document.getElementById("notes")?.value || ""
+      : "";
+
+  const confirmation =
+    document.getElementById("confirmation");
+
+  confirmation.textContent = "جاري إرسال التقييم...";
+
+  try {
+    const response = await fetch(
+      SUPABASE_REST_URL + "responses",
+      {
+        method: "POST",
+        headers: {
+          ...supabaseHeaders,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+          course_name: course,
+          form_type: kind,
+          answers: answers,
+          notes: notes
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+
+    form.reset();
+    confirmation.textContent = "تم إرسال التقييم بنجاح ✅";
+
+  } catch (error) {
+    console.error(error);
+    confirmation.textContent =
+      "حدث خطأ أثناء إرسال التقييم، يرجى المحاولة مرة أخرى.";
+  }
+}
+
+const evaluationForm =
+  document.getElementById("evaluation");
+
+if (evaluationForm) {
+  evaluationForm.onsubmit = sendEvaluationToSupabase;
+}
+async function sendEvaluationToSupabase(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const formData = new FormData(form);
+
+  const kind = document.getElementById("kind").value;
+
+  const groups =
+    kind === "lecturer"
+      ? lecturerQuestions
+      : programQuestions;
+
+  const answers = {};
+  let index = 0;
+
+  for (const questions of Object.values(groups)) {
+    for (const question of questions) {
+      answers[question] = Number(
+        formData.get("q" + index++)
+      );
+    }
+  }
+
+  const course =
+    courses[
+      Number(document.getElementById("course").value)
+    ];
+
+  const notes =
+    kind === "program"
+      ? document.getElementById("notes")?.value || ""
+      : "";
+
+  const confirmation =
+    document.getElementById("confirmation");
+
+  confirmation.textContent = "جاري إرسال التقييم...";
+
+  try {
+    const response = await fetch(
+      SUPABASE_REST_URL + "responses",
+      {
+        method: "POST",
+        headers: {
+          ...supabaseHeaders,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+          course_name: course,
+          form_type: kind,
+          answers: answers,
+          notes: notes
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+
+    form.reset();
+    confirmation.textContent = "تم إرسال التقييم بنجاح ✅";
+
+  } catch (error) {
+    console.error(error);
+    confirmation.textContent =
+      "حدث خطأ أثناء إرسال التقييم، يرجى المحاولة مرة أخرى.";
+  }
+}
+
+const evaluationForm =
+  document.getElementById("evaluation");
+
+if (evaluationForm) {
+  evaluationForm.onsubmit = sendEvaluationToSupabase;
+}
 </script>
+const SUPABASE_REST_URL = "https://ztzzjhlxqkmgnhxutwvy.supabase.co";
+const SUPABASE_KEY = "sb_publishable_qK0-N5h9uHDvJSaHArs9eg_7zaSjUzr";
 
+const supabaseHeaders = {
+  "apikey": SUPABASE_KEY,
+  "Content-Type": "application/json"
+};
 </body>
 </html>
