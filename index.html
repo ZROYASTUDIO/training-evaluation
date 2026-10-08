@@ -3,13 +3,22 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>نظام تقييم البرامج التدريبية</title>
 
-  <!-- خط Cairo -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
   <link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
@@ -18,11 +27,13 @@
   <style>
 
     :root {
-      --main-color: #17375c;
-      --button-color: #195b97;
-      --background: #f2f5f9;
-      --text-color: #1b2938;
-      --border-color: #dfe6ef;
+      --main: #17375c;
+      --blue: #195b97;
+      --background: #f3f6fa;
+      --border: #dce5ef;
+      --text: #1b2938;
+      --success: #198754;
+      --error: #b3261e;
     }
 
     * {
@@ -33,35 +44,29 @@
       margin: 0;
       font-family: "Cairo", Arial, sans-serif;
       background: var(--background);
-      color: var(--text-color);
+      color: var(--text);
     }
 
     header {
-      background: var(--main-color);
+      background: var(--main);
       color: white;
-      padding: 25px 18px;
+      padding: 24px 18px;
     }
 
-    .header-content {
+    .header-inner {
       max-width: 900px;
       margin: auto;
     }
 
     h1 {
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       font-size: 28px;
       font-weight: 800;
     }
 
-    h2 {
-      margin: 0 0 18px;
-      font-size: 22px;
-    }
-
-    h3 {
-      margin-top: 30px;
-      font-size: 19px;
-      color: var(--main-color);
+    .subtitle {
+      font-size: 15px;
+      opacity: 0.95;
     }
 
     main {
@@ -72,69 +77,39 @@
 
     .panel {
       background: white;
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px;
-      margin-bottom: 18px;
-      box-shadow: 0 5px 18px rgba(32, 56, 88, 0.06);
+      box-shadow: 0 5px 18px rgba(30, 50, 80, 0.06);
     }
 
-    .notice {
-      background: #fff5d9;
-      color: #74540a;
-      padding: 14px;
-      border-radius: 10px;
-      line-height: 1.9;
-      margin-bottom: 16px;
+    h2 {
+      margin-top: 0;
+      color: var(--main);
     }
 
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
+    h3 {
+      margin-top: 30px;
+      margin-bottom: 12px;
+      color: var(--main);
+      font-size: 19px;
     }
 
-    button {
-      font-family: "Cairo", sans-serif;
-      border: none;
-      border-radius: 10px;
-      padding: 12px 18px;
-      background: var(--button-color);
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .tabs button {
-      flex: 1;
-    }
-
-    button.secondary {
-      background: #e5edf6;
-      color: #183958;
-    }
-
-    button.danger {
-      background: #a53434;
-    }
-
-    label {
+    label.field-label {
       display: block;
-      margin: 14px 0 6px;
-      font-weight: 600;
+      margin: 15px 0 7px;
+      font-weight: 700;
     }
 
-    input,
     select,
     textarea {
       width: 100%;
       font-family: "Cairo", sans-serif;
-      border: 1px solid #b9c7d7;
+      font-size: 15px;
+      border: 1px solid #bbc8d6;
       border-radius: 10px;
       padding: 12px;
       background: white;
-      font-size: 15px;
     }
 
     textarea {
@@ -143,66 +118,88 @@
     }
 
     .question {
-      padding: 18px 0;
-      border-bottom: 1px solid #e5ebf2;
+      padding: 17px 0;
+      border-bottom: 1px solid #e6ebf1;
     }
 
     .question-title {
-      font-weight: 600;
       line-height: 1.9;
+      font-weight: 600;
     }
 
     .options {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(130px, 1fr)
+      );
       gap: 9px;
       margin-top: 12px;
     }
 
-    .options label {
+    .option {
       display: flex;
       align-items: center;
       gap: 7px;
+      padding: 11px;
       margin: 0;
       border: 1px solid #d9e2ed;
       border-radius: 10px;
-      padding: 11px;
-      font-size: 14px;
-      font-weight: 500;
       cursor: pointer;
-      background: #fff;
+      font-size: 14px;
+      background: white;
     }
 
-    .options label:hover {
+    .option:hover {
       background: #f4f8fc;
     }
 
-    .options input {
+    .option input {
       width: auto;
+      margin: 0;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .stat {
-      display: inline-block;
-      background: #edf3f9;
+    .submit-button {
+      width: 100%;
+      margin-top: 24px;
+      border: 0;
+      border-radius: 11px;
       padding: 14px;
-      border-radius: 10px;
-      margin: 6px;
+      background: var(--blue);
+      color: white;
+      font-family: "Cairo", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .submit-button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     #confirmation {
-      color: #19733c;
-      font-weight: 700;
       margin-top: 15px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .success {
+      color: var(--success);
+    }
+
+    .error {
+      color: var(--error);
+    }
+
+    .loading {
+      color: var(--main);
     }
 
     footer {
       text-align: center;
-      color: #66788b;
-      padding: 25px;
+      padding: 26px 15px;
+      color: #68798a;
       font-size: 13px;
     }
 
@@ -213,15 +210,11 @@
       }
 
       .panel {
-        padding: 18px;
+        padding: 17px;
       }
 
       .options {
         grid-template-columns: 1fr;
-      }
-
-      .tabs {
-        flex-direction: column;
       }
 
     }
@@ -233,45 +226,55 @@
 <body>
 
 <header>
-  <div class="header-content">
 
-    <!-- ✏️ تكدرين تغيرين هذا العنوان -->
-    <h1>نظام تقييم البرامج التدريبية</h1>
+  <div class="header-inner">
 
-    <!-- ✏️ وتغيرين هذا النص أيضاً -->
-    <div>نظام إلكتروني لتقييم البرامج التدريبية وأداء المدرب</div>
+    <h1>
+      نظام تقييم البرامج التدريبية
+    </h1>
+
+    <div class="subtitle">
+      نظام إلكتروني لتقييم البرامج التدريبية وأداء المدرب
+    </div>
 
   </div>
+
 </header>
 
 
 <main>
 
+  <section class="panel">
+
+    <h2>
+      استمارة التقييم
+    </h2>
 
 
-  <div class="tabs">
+    <label
+      class="field-label"
+      for="course"
+    >
+      الدورة التدريبية
+    </label>
 
-    <button onclick="showTab('trainee')">
-      واجهة المتدرب
-   
+    <select id="course">
 
-  </div>
+      <option value="">
+        جاري تحميل الدورات...
+      </option>
 
-
-  <!-- واجهة المتدرب -->
-
-  <section id="trainee" class="panel">
-
-    <h2>استمارة التقييم</h2>
-
-    <label>الدورة التدريبية</label>
-
-    <select id="course"></select>
+    </select>
 
 
-    <label>نوع الاستمارة</label>
+    <label
+      class="field-label"
+      for="kind"
+    >
+      نوع الاستمارة
+    </label>
 
-    <select id="kind" onchange="renderQuestions()">
+    <select id="kind">
 
       <option value="lecturer">
         تقييم أداء المحاضر
@@ -284,75 +287,22 @@
     </select>
 
 
-    <form
-      id="evaluation"
-onsubmit="sendEvaluationToSupabase(event)"    >
+    <form id="evaluation">
 
       <div id="questions"></div>
 
-      <br>
-
-      <button type="submit">
+      <button
+        id="submitButton"
+        class="submit-button"
+        type="submit"
+      >
         إرسال التقييم
       </button>
 
     </form>
 
-    <p id="confirmation"></p>
 
-  </section>
-
-
-
-  <!-- لوحة الإدارة -->
-
-  <section id="admin" class="panel hidden">
-
-    <h2>لوحة الإدارة</h2>
-
-    <p>
-      هذه اللوحة تجريبية حالياً، وسيتم لاحقاً إضافة تسجيل دخول آمن للدكتور.
-    </p>
-
-    <label>اسم دورة جديدة</label>
-
-    <input
-      id="newCourse"
-      placeholder="مثال: دورة إعداد المدربين"
-    >
-
-    <br><br>
-
-    <button onclick="addCourse()">
-      إضافة الدورة
-    </button>
-
-
-    <h3>الدورات التدريبية</h3>
-
-    <div id="courseList"></div>
-
-
-    <h3>ملخص الردود</h3>
-
-    <div id="stats"></div>
-
-
-    <br>
-
-    <button
-      class="secondary"
-      onclick="exportCSV()"
-    >
-      تصدير الردود CSV
-    </button>
-
-    <button
-      class="danger"
-      onclick="clearResponses()"
-    >
-      مسح الردود التجريبية
-    </button>
+    <div id="confirmation"></div>
 
   </section>
 
@@ -366,10 +316,27 @@ onsubmit="sendEvaluationToSupabase(event)"    >
 
 <script>
 
+/* =========================================================
+   بيانات Supabase
+   غيّري هذين السطرين فقط
+========================================================= */
 
-/* ==================================================
-   استمارة تقييم أداء المحاضر
-================================================== */
+const SUPABASE_API_URL =
+  "هنا الصقي API URL";
+
+const SUPABASE_KEY =
+  "هنا الصقي Publishable key";
+
+
+const supabaseHeaders = {
+  "apikey": SUPABASE_KEY,
+  "Content-Type": "application/json"
+};
+
+
+/* =========================================================
+   أسئلة تقييم المحاضر
+========================================================= */
 
 const lecturerQuestions = {
 
@@ -458,13 +425,11 @@ const lecturerQuestions = {
 };
 
 
-
-/* ==================================================
-   التقييم العام للبرنامج التدريبي
-================================================== */
+/* =========================================================
+   أسئلة تقييم البرنامج
+========================================================= */
 
 const programQuestions = {
-
 
   "التنظيم الإداري للبرنامج": [
 
@@ -520,10 +485,9 @@ const programQuestions = {
 };
 
 
-
-/* ==================================================
-   درجات التقييم
-================================================== */
+/* =========================================================
+   مقاييس التقييم
+========================================================= */
 
 const scales = {
 
@@ -559,123 +523,116 @@ const scales = {
 };
 
 
+/* =========================================================
+   متغير الدورات
+========================================================= */
 
-/* ==================================================
-   البيانات التجريبية
-================================================== */
-
-function loadData(key, fallback) {
-
-  try {
-
-    return JSON.parse(
-      localStorage.getItem(key)
-    ) ?? fallback;
-
-  }
-
-  catch {
-
-    return fallback;
-
-  }
-
-}
+let courses = [];
 
 
-let courses =
-  loadData(
-    "training_courses",
-    ["دورة تدريبية تجريبية"]
-  );
+/* =========================================================
+   تحميل الدورات من Supabase
+========================================================= */
 
+async function loadCourses() {
 
-let responses =
-  loadData(
-    "training_responses",
-    []
-  );
-
-
-
-function saveData() {
-
-  localStorage.setItem(
-    "training_courses",
-    JSON.stringify(courses)
-  );
-
-  localStorage.setItem(
-    "training_responses",
-    JSON.stringify(responses)
-  );
-
-}
-
-
-
-/* ==================================================
-   التنقل بين الواجهات
-================================================== */
-
-function showTab(tab) {
-
-  document
-    .getElementById("trainee")
-    .classList
-    .toggle(
-      "hidden",
-      tab !== "trainee"
-    );
-
-
-  document
-    .getElementById("admin")
-    .classList
-    .toggle(
-      "hidden",
-      tab !== "admin"
-    );
-
-
-  renderAdmin();
-
-}
-
-
-
-/* ==================================================
-   عرض الدورات
-================================================== */
-
-function renderCourses() {
-
-  const select =
+  const courseSelect =
     document.getElementById("course");
 
 
-  select.innerHTML =
-    courses
-      .map(
-        (course, index) =>
-          `<option value="${index}">
-            ${course}
-          </option>`
-      )
-      .join("");
+  try {
+
+    const response = await fetch(
+
+      SUPABASE_API_URL +
+      "/courses?select=name&active=eq.true&order=id.asc",
+
+      {
+        headers: supabaseHeaders
+      }
+
+    );
+
+
+    if (!response.ok) {
+
+      const error =
+        await response.text();
+
+      throw new Error(error);
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    courses =
+      data.map(
+        item => item.name
+      );
+
+
+    if (courses.length === 0) {
+
+      courseSelect.innerHTML =
+        `
+          <option value="">
+            لا توجد دورات متاحة حالياً
+          </option>
+        `;
+
+      return;
+
+    }
+
+
+    courseSelect.innerHTML =
+      courses
+        .map(
+          (course, index) => `
+
+            <option value="${index}">
+              ${course}
+            </option>
+
+          `
+        )
+        .join("");
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "خطأ في تحميل الدورات:",
+      error
+    );
+
+
+    courseSelect.innerHTML =
+      `
+        <option value="">
+          تعذر تحميل الدورات
+        </option>
+      `;
+
+  }
 
 }
 
 
-
-/* ==================================================
+/* =========================================================
    عرض الأسئلة
-================================================== */
+========================================================= */
 
 function renderQuestions() {
 
   const kind =
-    document.getElementById("kind").value;
+    document
+      .getElementById("kind")
+      .value;
 
 
   const groups =
@@ -698,10 +655,14 @@ function renderQuestions() {
     of Object.entries(groups)
   ) {
 
-    html += `<h3>${heading}</h3>`;
+    html +=
+      `<h3>${heading}</h3>`;
 
 
-    for (const question of questions) {
+    for (
+      const question
+      of questions
+    ) {
 
       const id =
         "q" + questionNumber++;
@@ -719,18 +680,20 @@ function renderQuestions() {
 
             ${scale
               .map(
-                (score, index) => `
+                (label, score) => `
 
-                  <label>
+                  <label class="option">
 
                     <input
                       required
                       type="radio"
                       name="${id}"
-                      value="${index + 1}"
+                      value="${score + 1}"
                     >
 
-                    ${score}
+                    <span>
+                      ${label}
+                    </span>
 
                   </label>
 
@@ -749,11 +712,16 @@ function renderQuestions() {
   }
 
 
-  if (kind === "program") {
+  if (
+    kind === "program"
+  ) {
 
     html += `
 
-      <label>
+      <label
+        class="field-label"
+        for="notes"
+      >
         الرجاء الإفادة بأية ملاحظات أخرى
         (اختياري)
       </label>
@@ -773,35 +741,64 @@ function renderQuestions() {
     .innerHTML = html;
 
 
-  document
-    .getElementById("confirmation")
-    .textContent = "";
+  clearMessage();
 
 }
 
 
+/* =========================================================
+   إرسال التقييم إلى Supabase
+========================================================= */
 
-/* ==================================================
-   إرسال التقييم
-================================================== */
-
-function submitEvaluation(event) {
+async function submitEvaluation(event) {
 
   event.preventDefault();
 
 
-  const formData =
-    new FormData(event.target);
+  const form =
+    event.currentTarget;
+
+
+  const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
+
+
+  const courseSelect =
+    document.getElementById(
+      "course"
+    );
+
+
+  if (
+    courseSelect.value === ""
+  ) {
+
+    showMessage(
+      "يرجى اختيار دورة تدريبية.",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   const kind =
-    document.getElementById("kind").value;
+    document
+      .getElementById("kind")
+      .value;
 
 
   const groups =
     kind === "lecturer"
       ? lecturerQuestions
       : programQuestions;
+
+
+  const formData =
+    new FormData(form);
 
 
   const answers = {};
@@ -822,457 +819,201 @@ function submitEvaluation(event) {
       answers[question] =
         Number(
           formData.get(
-            "q" + index++
+            "q" + index
           )
         );
 
-    }
 
-  }
-
-
-  responses.push({
-
-    course:
-      courses[
-        Number(
-          document
-            .getElementById("course")
-            .value
-        )
-      ],
-
-    kind: kind,
-
-    date:
-      new Date().toISOString(),
-
-    answers: answers,
-
-    notes:
-      kind === "program"
-        ? document
-            .getElementById("notes")
-            ?.value || ""
-        : ""
-
-  });
-
-
-  saveData();
-
-
-  event.target.reset();
-
-
-  document
-    .getElementById("confirmation")
-    .textContent =
-      "تم حفظ التقييم بنجاح ✅";
-
-
-  renderAdmin();
-
-}
-
-
-
-/* ==================================================
-   إضافة دورة
-================================================== */
-
-function addCourse() {
-
-  const input =
-    document.getElementById("newCourse");
-
-
-  const name =
-    input.value.trim();
-
-
-  if (!name) {
-
-    alert(
-      "يرجى كتابة اسم الدورة أولاً"
-    );
-
-    return;
-
-  }
-
-
-  if (
-    courses.includes(name)
-  ) {
-
-    alert(
-      "هذه الدورة موجودة مسبقاً"
-    );
-
-    return;
-
-  }
-
-
-  courses.push(name);
-
-  saveData();
-
-  input.value = "";
-
-  renderCourses();
-
-  renderAdmin();
-
-}
-
-
-
-/* ==================================================
-   لوحة الإدارة
-================================================== */
-
-function renderAdmin() {
-
-  document
-    .getElementById("courseList")
-    .innerHTML =
-
-      courses
-        .map(
-          course =>
-            `<div class="stat">
-              ${course}
-            </div>`
-        )
-        .join("");
-
-
-  document
-    .getElementById("stats")
-    .innerHTML = `
-
-      <div class="stat">
-
-        عدد الدورات:
-        <strong>
-          ${courses.length}
-        </strong>
-
-      </div>
-
-
-      <div class="stat">
-
-        عدد الردود:
-        <strong>
-          ${responses.length}
-        </strong>
-
-      </div>
-
-    `;
-
-}
-
-
-
-/* ==================================================
-   مسح الردود
-================================================== */
-
-function clearResponses() {
-
-  const confirmDelete =
-    confirm(
-      "هل تريدين مسح جميع الردود التجريبية؟"
-    );
-
-
-  if (!confirmDelete)
-    return;
-
-
-  responses = [];
-
-  saveData();
-
-  renderAdmin();
-
-}
-
-
-
-/* ==================================================
-   تصدير CSV
-================================================== */
-
-function exportCSV() {
-
-  const rows = [
-
-    [
-      "الدورة",
-      "نوع الاستمارة",
-      "التاريخ",
-      "السؤال",
-      "الدرجة",
-      "الملاحظات"
-    ]
-
-  ];
-
-
-  for (
-    const response
-    of responses
-  ) {
-
-    for (
-      const [question, score]
-      of Object.entries(
-        response.answers
-      )
-    ) {
-
-      rows.push([
-
-        response.course,
-
-        response.kind,
-
-        response.date,
-
-        question,
-
-        score,
-
-        response.notes
-
-      ]);
+      index++;
 
     }
 
   }
 
 
-  const csv =
-
-    "\ufeff" +
-
-    rows
-      .map(
-        row =>
-          row
-            .map(
-              item =>
-                `"${String(item ?? "")
-                  .replace(/"/g, '""')}"`
-            )
-            .join(",")
+  const course =
+    courses[
+      Number(
+        courseSelect.value
       )
-      .join("\r\n");
+    ];
 
 
-  const file =
-    new Blob(
-      [csv],
+  const notesElement =
+    document.getElementById(
+      "notes"
+    );
+
+
+  const notes =
+    notesElement
+      ? notesElement.value.trim()
+      : "";
+
+
+  submitButton.disabled = true;
+
+  submitButton.textContent =
+    "جاري الإرسال...";
+
+
+  showMessage(
+    "جاري إرسال التقييم...",
+    "loading"
+  );
+
+
+  try {
+
+    const response = await fetch(
+
+      SUPABASE_API_URL +
+      "/responses",
+
       {
-        type:
-          "text/csv;charset=utf-8"
+
+        method: "POST",
+
+        headers: {
+          ...supabaseHeaders,
+          "Prefer": "return=minimal"
+        },
+
+        body: JSON.stringify({
+
+          course_name: course,
+
+          form_type: kind,
+
+          answers: answers,
+
+          notes: notes
+
+        })
+
       }
+
     );
 
 
-  const link =
-    document.createElement("a");
+    if (!response.ok) {
+
+      const error =
+        await response.text();
+
+      throw new Error(error);
+
+    }
 
 
-  link.href =
-    URL.createObjectURL(file);
+    form.reset();
 
 
-  link.download =
-    "training-evaluations.csv";
+    document
+      .getElementById("kind")
+      .value = kind;
 
 
-  link.click();
+    renderQuestions();
+
+
+    showMessage(
+      "تم إرسال التقييم بنجاح ✅",
+      "success"
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "خطأ في إرسال التقييم:",
+      error
+    );
+
+
+    showMessage(
+      "حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.",
+      "error"
+    );
+
+  }
+
+  finally {
+
+    submitButton.disabled = false;
+
+    submitButton.textContent =
+      "إرسال التقييم";
+
+  }
 
 }
 
 
+/* =========================================================
+   رسائل الحالة
+========================================================= */
 
-/* ==================================================
-   تشغيل الموقع
-================================================== */
+function showMessage(
+  text,
+  type
+) {
 
-renderCourses();
+  const box =
+    document.getElementById(
+      "confirmation"
+    );
+
+
+  box.textContent = text;
+
+  box.className = type;
+
+}
+
+
+function clearMessage() {
+
+  const box =
+    document.getElementById(
+      "confirmation"
+    );
+
+
+  box.textContent = "";
+
+  box.className = "";
+
+}
+
+
+/* =========================================================
+   تشغيل الصفحة
+========================================================= */
+
+document
+  .getElementById("kind")
+  .addEventListener(
+    "change",
+    renderQuestions
+  );
+
+
+document
+  .getElementById("evaluation")
+  .addEventListener(
+    "submit",
+    submitEvaluation
+  );
+
 
 renderQuestions();
 
-renderAdmin();
-async function sendEvaluationToSupabase(event) {
-  event.preventDefault();
+loadCourses();
 
-  const form = event.target;
-  const formData = new FormData(form);
-
-  const kind = document.getElementById("kind").value;
-
-  const groups =
-    kind === "lecturer"
-      ? lecturerQuestions
-      : programQuestions;
-
-  const answers = {};
-  let index = 0;
-
-  for (const questions of Object.values(groups)) {
-    for (const question of questions) {
-      answers[question] = Number(
-        formData.get("q" + index++)
-      );
-    }
-  }
-
-  const course =
-    courses[
-      Number(document.getElementById("course").value)
-    ];
-
-  const notes =
-    kind === "program"
-      ? document.getElementById("notes")?.value || ""
-      : "";
-
-  const confirmation =
-    document.getElementById("confirmation");
-
-  confirmation.textContent = "جاري إرسال التقييم...";
-
-  try {
-    const response = await fetch(
-      SUPABASE_REST_URL + "responses",
-      {
-        method: "POST",
-        headers: {
-          ...supabaseHeaders,
-          "Prefer": "return=minimal"
-        },
-        body: JSON.stringify({
-          course_name: course,
-          form_type: kind,
-          answers: answers,
-          notes: notes
-        })
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
-
-    form.reset();
-    confirmation.textContent = "تم إرسال التقييم بنجاح ✅";
-
-  } catch (error) {
-    console.error(error);
-    confirmation.textContent =
-      "حدث خطأ أثناء إرسال التقييم، يرجى المحاولة مرة أخرى.";
-  }
-}
-
-const evaluationForm =
-  document.getElementById("evaluation");
-
-if (evaluationForm) {
-  evaluationForm.onsubmit = sendEvaluationToSupabase;
-}
-async function sendEvaluationToSupabase(event) {
-  event.preventDefault();
-
-  const form = event.target;
-  const formData = new FormData(form);
-
-  const kind = document.getElementById("kind").value;
-
-  const groups =
-    kind === "lecturer"
-      ? lecturerQuestions
-      : programQuestions;
-
-  const answers = {};
-  let index = 0;
-
-  for (const questions of Object.values(groups)) {
-    for (const question of questions) {
-      answers[question] = Number(
-        formData.get("q" + index++)
-      );
-    }
-  }
-
-  const course =
-    courses[
-      Number(document.getElementById("course").value)
-    ];
-
-  const notes =
-    kind === "program"
-      ? document.getElementById("notes")?.value || ""
-      : "";
-
-  const confirmation =
-    document.getElementById("confirmation");
-
-  confirmation.textContent = "جاري إرسال التقييم...";
-
-  try {
-    const response = await fetch(
-      SUPABASE_REST_URL + "responses",
-      {
-        method: "POST",
-        headers: {
-          ...supabaseHeaders,
-          "Prefer": "return=minimal"
-        },
-        body: JSON.stringify({
-          course_name: course,
-          form_type: kind,
-          answers: answers,
-          notes: notes
-        })
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
-
-    form.reset();
-    confirmation.textContent = "تم إرسال التقييم بنجاح ✅";
-
-  } catch (error) {
-    console.error(error);
-    confirmation.textContent =
-      "حدث خطأ أثناء إرسال التقييم، يرجى المحاولة مرة أخرى.";
-  }
-}
-
-const evaluationForm =
-  document.getElementById("evaluation");
-
-if (evaluationForm) {
-  evaluationForm.onsubmit = sendEvaluationToSupabase;
-}
 </script>
-const SUPABASE_REST_URL = "https://ztzzjhlxqkmgnhxutwvy.supabase.co";
-const SUPABASE_KEY = "sb_publishable_qK0-N5h9uHDvJSaHArs9eg_7zaSjUzr";
 
-const supabaseHeaders = {
-  "apikey": SUPABASE_KEY,
-  "Content-Type": "application/json"
-};
 </body>
+
 </html>
