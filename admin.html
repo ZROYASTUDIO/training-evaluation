@@ -1,615 +1,924 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>لوحة إدارة التقييمات</title>
+<title>لوحة إدارة التقييمات</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+*{
+  box-sizing:border-box;
+}
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#f3f6fa;
+  color:#1d2c3b;
+}
 
-  <style>
+header{
+  background:#17375c;
+  color:white;
+  padding:24px 18px;
+}
 
-    :root {
-      --main: #17375c;
-      --blue: #195b97;
-      --background: #f3f6fa;
-      --border: #dce5ef;
-      --text: #1b2938;
-    }
+.header-inner{
+  max-width:1000px;
+  margin:auto;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+h1{
+  margin:0 0 7px;
+  font-size:27px;
+}
 
-    body {
-      margin: 0;
-      font-family: "Cairo", Arial, sans-serif;
-      background: var(--background);
-      color: var(--text);
-    }
+.subtitle{
+  opacity:.9;
+}
 
-    header {
-      background: var(--main);
-      color: white;
-      padding: 24px;
-    }
+main{
+  max-width:1000px;
+  margin:28px auto;
+  padding:0 15px;
+}
 
-    header div {
-      max-width: 950px;
-      margin: auto;
-    }
+.card{
+  background:white;
+  border:1px solid #dce5ef;
+  border-radius:16px;
+  padding:23px;
+  box-shadow:0 5px 18px rgba(30,50,80,.06);
+}
 
-    h1 {
-      margin: 0;
-      font-size: 27px;
-    }
+.login-card{
+  max-width:500px;
+  margin:50px auto;
+}
 
-    main {
-      max-width: 950px;
-      margin: 25px auto;
-      padding: 0 15px;
-    }
+label{
+  display:block;
+  margin:15px 0 6px;
+  font-weight:bold;
+}
 
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 18px;
-      box-shadow: 0 5px 18px rgba(30, 50, 80, 0.06);
-    }
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #b9c7d5;
+  border-radius:9px;
+  font-size:15px;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-    }
+button{
+  border:0;
+  border-radius:9px;
+  padding:12px 18px;
+  font-size:15px;
+  cursor:pointer;
+}
 
-    .stat {
-      background: #edf3f9;
-      padding: 18px;
-      border-radius: 12px;
-      text-align: center;
-    }
+.primary{
+  width:100%;
+  margin-top:20px;
+  background:#195b97;
+  color:white;
+  font-weight:bold;
+}
 
-    .number {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--main);
-    }
+.logout{
+  background:#a53c3c;
+  color:white;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #bbc8d6;
-      border-radius: 10px;
-      font-family: "Cairo";
-      font-size: 15px;
-      margin: 8px 0 12px;
-    }
+.refresh{
+  background:#195b97;
+  color:white;
+}
 
-    button {
-      font-family: "Cairo";
-      background: var(--blue);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 11px 17px;
-      cursor: pointer;
-      font-weight: 600;
-      margin: 4px;
-    }
+#errorMessage{
+  color:#b3261e;
+  margin-top:14px;
+  font-weight:bold;
+}
 
-    .danger {
-      background: #a53434;
-    }
+.hidden{
+  display:none;
+}
 
-    .secondary {
-      background: #e5edf6;
-      color: #183958;
-    }
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
 
-    .course {
-      border-bottom: 1px solid #e5ebf2;
-      padding: 13px 0;
-    }
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:22px;
+}
 
-    .course:last-child {
-      border-bottom: none;
-    }
+.summary-box{
+  background:#edf4fb;
+  border-radius:12px;
+  padding:18px;
+  text-align:center;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
+.summary-number{
+  font-size:26px;
+  font-weight:bold;
+  color:#17375c;
+}
 
-    th,
-    td {
-      padding: 11px;
-      border: 1px solid #dbe4ee;
-      text-align: center;
-    }
+.summary-label{
+  margin-top:5px;
+  font-size:14px;
+}
 
-    th {
-      background: #edf3f9;
-    }
+.response-card{
+  border:1px solid #dae3ec;
+  border-radius:13px;
+  margin:15px 0;
+  overflow:hidden;
+}
 
-    .note {
-      background: #fff5d9;
-      padding: 13px;
-      border-radius: 10px;
-      color: #725509;
-      margin-bottom: 18px;
-    }
+.response-head{
+  padding:15px;
+  background:#f6f9fc;
+}
 
-    a {
-      text-decoration: none;
-    }
+.response-title{
+  font-weight:bold;
+  color:#17375c;
+  font-size:17px;
+}
 
-    @media (max-width: 600px) {
+.meta{
+  margin-top:6px;
+  font-size:13px;
+  color:#657587;
+}
 
-      h1 {
-        font-size: 22px;
-      }
+.details{
+  padding:15px;
+}
 
-      table {
-        font-size: 12px;
-      }
+.answer{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid #eef1f4;
+  padding:10px 0;
+}
 
-      .card {
-        padding: 16px;
-      }
+.answer:last-child{
+  border-bottom:0;
+}
 
-    }
+.score{
+  font-weight:bold;
+  white-space:nowrap;
+  color:#195b97;
+}
 
-  </style>
+.notes{
+  margin-top:15px;
+  padding:12px;
+  background:#fff9e8;
+  border-radius:9px;
+  line-height:1.8;
+}
+
+.empty{
+  text-align:center;
+  color:#68798a;
+  padding:40px;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+}
+
+@media(max-width:650px){
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  .answer{
+    flex-direction:column;
+    gap:4px;
+  }
+}
+</style>
 </head>
-
 
 <body>
 
 <header>
-  <div>
-    <h1>لوحة إدارة تقييم البرامج التدريبية</h1>
-    <div>إدارة الدورات ومتابعة التقييمات</div>
+  <div class="header-inner">
+    <h1>لوحة إدارة التقييمات</h1>
+    <div class="subtitle">
+      نظام تقييم البرامج التدريبية وأداء المدرب
+    </div>
   </div>
 </header>
 
-
 <main>
 
-  <div class="note">
-    هذه لوحة إدارة تجريبية. عند نشر النظام نهائياً سيتم إضافة تسجيل دخول آمن للدكتور.
+<!-- تسجيل الدخول -->
+<section id="loginSection" class="card login-card">
+
+  <h2>تسجيل دخول الإدارة</h2>
+
+  <label for="email">البريد الإلكتروني</label>
+  <input
+    id="email"
+    type="email"
+    autocomplete="username"
+    placeholder="أدخل البريد الإلكتروني"
+  >
+
+  <label for="password">كلمة المرور</label>
+  <input
+    id="password"
+    type="password"
+    autocomplete="current-password"
+    placeholder="أدخل كلمة المرور"
+  >
+
+  <button
+    id="loginButton"
+    class="primary"
+    type="button"
+  >
+    تسجيل الدخول
+  </button>
+
+  <div id="errorMessage"></div>
+
+</section>
+
+
+<!-- لوحة الإدارة -->
+<section id="adminSection" class="hidden">
+
+  <div class="toolbar">
+    <div>
+      <strong>لوحة النتائج</strong>
+      <div id="userEmail" class="meta"></div>
+    </div>
+
+    <div>
+      <button
+        id="refreshButton"
+        class="refresh"
+        type="button"
+      >
+        تحديث النتائج
+      </button>
+
+      <button
+        id="logoutButton"
+        class="logout"
+        type="button"
+      >
+        تسجيل الخروج
+      </button>
+    </div>
   </div>
 
 
-  <section class="card">
+  <div class="summary">
 
-    <h2>ملخص النظام</h2>
-
-    <div class="stats">
-
-      <div class="stat">
-        <div class="number" id="courseCount">0</div>
-        <div>عدد الدورات</div>
+    <div class="summary-box">
+      <div
+        id="totalResponses"
+        class="summary-number"
+      >
+        0
       </div>
-
-      <div class="stat">
-        <div class="number" id="responseCount">0</div>
-        <div>عدد التقييمات</div>
+      <div class="summary-label">
+        إجمالي التقييمات
       </div>
-
     </div>
 
-  </section>
+    <div class="summary-box">
+      <div
+        id="lecturerCount"
+        class="summary-number"
+      >
+        0
+      </div>
+      <div class="summary-label">
+        تقييم أداء المحاضر
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div
+        id="programCount"
+        class="summary-number"
+      >
+        0
+      </div>
+      <div class="summary-label">
+        تقييم البرنامج
+      </div>
+    </div>
+
+  </div>
 
 
-  <section class="card">
+  <div class="card">
+    <h2>التقييمات المستلمة</h2>
 
-    <h2>إضافة دورة تدريبية</h2>
+    <div id="responsesContainer">
+      <div class="loading">
+        جاري تحميل النتائج...
+      </div>
+    </div>
+  </div>
 
-    <input
-      id="newCourse"
-      placeholder="اكتب اسم الدورة التدريبية"
-    >
-
-    <button onclick="addCourse()">
-      إضافة الدورة
-    </button>
-
-  </section>
-
-
-  <section class="card">
-
-    <h2>الدورات التدريبية</h2>
-
-    <div id="courseList"></div>
-
-  </section>
-
-
-  <section class="card">
-
-    <h2>ملخص التقييمات</h2>
-
-    <div id="resultsTable"></div>
-
-  </section>
-
-
-  <section class="card">
-
-    <button onclick="exportCSV()">
-      تصدير النتائج CSV
-    </button>
-
-    <button
-      class="danger"
-      onclick="clearResponses()"
-    >
-      مسح الردود التجريبية
-    </button>
-
-    <a href="index.html">
-      <button class="secondary">
-        فتح واجهة المتدرب
-      </button>
-    </a>
-
-  </section>
+</section>
 
 </main>
 
 
 <script>
 
-function loadData(key, fallback) {
+/* ========================================
+   بيانات Supabase
+======================================== */
 
-  try {
+/*
+الصقي نفس API URL المستخدم في index.html
+مثال:
+https://xxxx.supabase.co/rest/v1
+*/
 
-    return JSON.parse(
-      localStorage.getItem(key)
-    ) ?? fallback;
+const SUPABASE_REST_URL =
+  "هنا الصقي API URL";
 
-  }
+/*
+الصقي نفس Publishable Key
+الذي يبدأ بـ sb_publishable_
+*/
 
-  catch {
-
-    return fallback;
-
-  }
-
-}
+const SUPABASE_KEY =
+  "هنا الصقي Publishable key";
 
 
-let courses =
-  loadData(
-    "training_courses",
-    ["دورة تدريبية تجريبية"]
+const SUPABASE_URL =
+  SUPABASE_REST_URL.replace(
+    /\/rest\/v1\/?$/,
+    ""
   );
 
 
-let responses =
-  loadData(
-    "training_responses",
-    []
-  );
+/* ========================================
+   عناصر الصفحة
+======================================== */
+
+const loginSection =
+  document.getElementById("loginSection");
+
+const adminSection =
+  document.getElementById("adminSection");
+
+const errorMessage =
+  document.getElementById("errorMessage");
+
+const responsesContainer =
+  document.getElementById("responsesContainer");
 
 
-function saveData() {
+/* ========================================
+   تسجيل الدخول
+======================================== */
 
-  localStorage.setItem(
-    "training_courses",
-    JSON.stringify(courses)
-  );
+async function login(){
 
-  localStorage.setItem(
-    "training_responses",
-    JSON.stringify(responses)
-  );
+  const email =
+    document.getElementById("email")
+      .value.trim();
 
-}
+  const password =
+    document.getElementById("password")
+      .value;
 
-
-function addCourse() {
-
-  const input =
-    document.getElementById("newCourse");
-
-  const name =
-    input.value.trim();
+  const button =
+    document.getElementById("loginButton");
 
 
-  if (!name) {
+  if(!email || !password){
 
-    alert("اكتب اسم الدورة أولاً");
+    errorMessage.textContent =
+      "يرجى إدخال البريد الإلكتروني وكلمة المرور.";
 
     return;
-
   }
 
 
-  if (courses.includes(name)) {
+  button.disabled = true;
+  button.textContent = "جاري تسجيل الدخول...";
+  errorMessage.textContent = "";
 
-    alert("هذه الدورة موجودة مسبقاً");
 
-    return;
+  try{
 
-  }
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/auth/v1/token?grant_type=password",
+        {
+          method:"POST",
 
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Content-Type":"application/json"
+          },
 
-  courses.push(name);
+          body:JSON.stringify({
+            email:email,
+            password:password
+          })
+        }
+      );
 
-  saveData();
 
-  input.value = "";
+    const data =
+      await response.json();
 
-  render();
 
-}
+    if(!response.ok){
 
-
-function clearResponses() {
-
-  if (
-    !confirm(
-      "هل تريد مسح جميع الردود التجريبية؟"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  responses = [];
-
-  saveData();
-
-  render();
-
-}
-
-
-function exportCSV() {
-
-  const rows = [
-
-    [
-      "الدورة",
-      "نوع الاستمارة",
-      "التاريخ",
-      "السؤال",
-      "الدرجة",
-      "الملاحظات"
-    ]
-
-  ];
-
-
-  responses.forEach(response => {
-
-    Object.entries(
-      response.answers
-    ).forEach(
-      ([question, score]) => {
-
-        rows.push([
-
-          response.course,
-
-          response.kind,
-
-          response.date,
-
-          question,
-
-          score,
-
-          response.notes || ""
-
-        ]);
-
-      }
-    );
-
-  });
-
-
-  const csv =
-
-    "\ufeff" +
-
-    rows
-      .map(
-        row =>
-          row
-            .map(
-              value =>
-                `"${String(value)
-                  .replace(/"/g, '""')}"`
-            )
-            .join(",")
-      )
-      .join("\r\n");
-
-
-  const blob =
-    new Blob(
-      [csv],
-      {
-        type: "text/csv;charset=utf-8"
-      }
-    );
-
-
-  const link =
-    document.createElement("a");
-
-
-  link.href =
-    URL.createObjectURL(blob);
-
-
-  link.download =
-    "training-evaluation-results.csv";
-
-
-  link.click();
-
-}
-
-
-function render() {
-
-  document
-    .getElementById("courseCount")
-    .textContent =
-      courses.length;
-
-
-  document
-    .getElementById("responseCount")
-    .textContent =
-      responses.length;
-
-
-  document
-    .getElementById("courseList")
-    .innerHTML =
-
-      courses
-        .map(
-          course => {
-
-            const count =
-              responses.filter(
-                response =>
-                  response.course === course
-              ).length;
-
-            return `
-
-              <div class="course">
-
-                <strong>
-                  ${course}
-                </strong>
-
-                <div>
-                  عدد التقييمات:
-                  ${count}
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        )
-        .join("");
-
-
-  if (responses.length === 0) {
-
-    document
-      .getElementById("resultsTable")
-      .innerHTML =
-        "لا توجد تقييمات محفوظة حالياً.";
-
-    return;
-
-  }
-
-
-  let html = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>الدورة</th>
-
-          <th>نوع التقييم</th>
-
-          <th>التاريخ</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-  `;
-
-
-  responses.forEach(
-    response => {
-
-      html += `
-
-        <tr>
-
-          <td>
-            ${response.course}
-          </td>
-
-          <td>
-            ${
-              response.kind === "lecturer"
-                ? "تقييم المحاضر"
-                : "تقييم البرنامج"
-            }
-          </td>
-
-          <td>
-            ${
-              new Date(
-                response.date
-              ).toLocaleString("ar-IQ")
-            }
-          </td>
-
-        </tr>
-
-      `;
+      throw new Error(
+        data.error_description ||
+        data.msg ||
+        data.message ||
+        "بيانات الدخول غير صحيحة."
+      );
 
     }
-  );
 
 
-  html += `
-
-      </tbody>
-
-    </table>
-
-  `;
+    sessionStorage.setItem(
+      "adminSession",
+      JSON.stringify(data)
+    );
 
 
-  document
-    .getElementById("resultsTable")
-    .innerHTML = html;
+    openAdmin(
+      data.user,
+      data.access_token
+    );
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    errorMessage.textContent =
+      "تعذر تسجيل الدخول. تأكدي من البريد وكلمة المرور.";
+
+  }
+
+  finally{
+
+    button.disabled = false;
+    button.textContent = "تسجيل الدخول";
+
+  }
 
 }
 
 
-render();
+/* ========================================
+   فتح لوحة الإدارة
+======================================== */
+
+async function openAdmin(
+  user,
+  accessToken
+){
+
+  loginSection.classList.add("hidden");
+  adminSection.classList.remove("hidden");
+
+  document.getElementById(
+    "userEmail"
+  ).textContent =
+    user?.email || "";
+
+  await loadResponses(accessToken);
+
+}
+
+
+/* ========================================
+   تحميل النتائج
+======================================== */
+
+async function loadResponses(
+  accessToken
+){
+
+  responsesContainer.innerHTML =
+    '<div class="loading">جاري تحميل النتائج...</div>';
+
+
+  try{
+
+    const response =
+      await fetch(
+
+        SUPABASE_REST_URL +
+        "/responses?select=id,course_name,form_type,answers,notes,created_at&order=created_at.desc",
+
+        {
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Authorization":
+              "Bearer " + accessToken
+          }
+        }
+
+      );
+
+
+    if(response.status === 401){
+
+      throw new Error(
+        "SESSION_EXPIRED"
+      );
+
+    }
+
+
+    if(!response.ok){
+
+      const text =
+        await response.text();
+
+      throw new Error(text);
+
+    }
+
+
+    const responses =
+      await response.json();
+
+
+    renderResponses(responses);
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    if(
+      error.message ===
+      "SESSION_EXPIRED"
+    ){
+
+      logout();
+
+      errorMessage.textContent =
+        "انتهت جلسة الدخول. سجلي الدخول مرة أخرى.";
+
+      return;
+    }
+
+
+    responsesContainer.innerHTML =
+      `
+        <div class="empty">
+          تعذر تحميل النتائج أو لا توجد صلاحية لعرضها.
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* ========================================
+   عرض النتائج
+======================================== */
+
+function renderResponses(
+  responses
+){
+
+  document.getElementById(
+    "totalResponses"
+  ).textContent =
+    responses.length;
+
+
+  const lecturer =
+    responses.filter(
+      item =>
+        item.form_type ===
+        "lecturer"
+    ).length;
+
+
+  const program =
+    responses.filter(
+      item =>
+        item.form_type ===
+        "program"
+    ).length;
+
+
+  document.getElementById(
+    "lecturerCount"
+  ).textContent =
+    lecturer;
+
+
+  document.getElementById(
+    "programCount"
+  ).textContent =
+    program;
+
+
+  if(responses.length === 0){
+
+    responsesContainer.innerHTML =
+      `
+        <div class="empty">
+          لا توجد تقييمات حالياً.
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  responsesContainer.innerHTML =
+    responses
+      .map(
+        item =>
+          createResponseHTML(item)
+      )
+      .join("");
+
+}
+
+
+/* ========================================
+   بطاقة تقييم واحدة
+======================================== */
+
+function createResponseHTML(
+  item
+){
+
+  const type =
+    item.form_type === "lecturer"
+      ? "تقييم أداء المحاضر"
+      : "التقييم العام للبرنامج";
+
+
+  const date =
+    item.created_at
+      ? new Date(
+          item.created_at
+        ).toLocaleString(
+          "ar-IQ"
+        )
+      : "";
+
+
+  const answers =
+    item.answers || {};
+
+
+  const answerRows =
+    Object.entries(answers)
+      .map(
+        ([question,score]) => `
+
+          <div class="answer">
+
+            <span>
+              ${escapeHTML(question)}
+            </span>
+
+            <span class="score">
+              ${escapeHTML(String(score))} / 5
+            </span>
+
+          </div>
+
+        `
+      )
+      .join("");
+
+
+  const notes =
+    item.notes
+      ? `
+        <div class="notes">
+          <strong>الملاحظات:</strong><br>
+          ${escapeHTML(item.notes)}
+        </div>
+      `
+      : "";
+
+
+  return `
+
+    <div class="response-card">
+
+      <div class="response-head">
+
+        <div class="response-title">
+          ${escapeHTML(item.course_name || "")}
+        </div>
+
+        <div class="meta">
+          ${type}
+          ${date ? " • " + date : ""}
+        </div>
+
+      </div>
+
+      <div class="details">
+        ${answerRows}
+        ${notes}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ========================================
+   منع إدخال HTML من البيانات
+======================================== */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* ========================================
+   تحديث النتائج
+======================================== */
+
+async function refreshResponses(){
+
+  const session =
+    getSession();
+
+  if(!session){
+    logout();
+    return;
+  }
+
+  await loadResponses(
+    session.access_token
+  );
+
+}
+
+
+/* ========================================
+   تسجيل الخروج
+======================================== */
+
+function logout(){
+
+  sessionStorage.removeItem(
+    "adminSession"
+  );
+
+  adminSection.classList.add(
+    "hidden"
+  );
+
+  loginSection.classList.remove(
+    "hidden"
+  );
+
+  document.getElementById(
+    "password"
+  ).value = "";
+
+}
+
+
+/* ========================================
+   قراءة الجلسة
+======================================== */
+
+function getSession(){
+
+  try{
+
+    return JSON.parse(
+      sessionStorage.getItem(
+        "adminSession"
+      )
+    );
+
+  }
+
+  catch{
+
+    return null;
+
+  }
+
+}
+
+
+/* ========================================
+   الأحداث
+======================================== */
+
+document.getElementById(
+  "loginButton"
+).addEventListener(
+  "click",
+  login
+);
+
+
+document.getElementById(
+  "password"
+).addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Enter"){
+      login();
+    }
+
+  }
+);
+
+
+document.getElementById(
+  "logoutButton"
+).addEventListener(
+  "click",
+  logout
+);
+
+
+document.getElementById(
+  "refreshButton"
+).addEventListener(
+  "click",
+  refreshResponses
+);
+
+
+/* ========================================
+   استعادة الجلسة عند تحديث الصفحة
+======================================== */
+
+const existingSession =
+  getSession();
+
+
+if(
+  existingSession &&
+  existingSession.access_token &&
+  existingSession.user
+){
+
+  openAdmin(
+    existingSession.user,
+    existingSession.access_token
+  );
+
+}
 
 </script>
 
 </body>
-
 </html>
