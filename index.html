@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>نظام تقييم البرامج التدريبية</title>
+
+  <!-- خط Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --main-color: #17375c;
+      --button-color: #195b97;
+      --background: #f2f5f9;
+      --text-color: #1b2938;
+      --border-color: #dfe6ef;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Cairo", Arial, sans-serif;
+      background: var(--background);
+      color: var(--text-color);
+    }
+
+    header {
+      background: var(--main-color);
+      color: white;
+      padding: 25px 18px;
+    }
+
+    .header-content {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 22px;
+    }
+
+    h3 {
+      margin-top: 30px;
+      font-size: 19px;
+      color: var(--main-color);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 5px 18px rgba(32, 56, 88, 0.06);
+    }
+
+    .notice {
+      background: #fff5d9;
+      color: #74540a;
+      padding: 14px;
+      border-radius: 10px;
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      font-family: "Cairo", sans-serif;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      background: var(--button-color);
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .tabs button {
+      flex: 1;
+    }
+
+    button.secondary {
+      background: #e5edf6;
+      color: #183958;
+    }
+
+    button.danger {
+      background: #a53434;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      font-family: "Cairo", sans-serif;
+      border: 1px solid #b9c7d7;
+      border-radius: 10px;
+      padding: 12px;
+      background: white;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .question {
+      padding: 18px 0;
+      border-bottom: 1px solid #e5ebf2;
+    }
+
+    .question-title {
+      font-weight: 600;
+      line-height: 1.9;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0;
+      border: 1px solid #d9e2ed;
+      border-radius: 10px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .options label:hover {
+      background: #f4f8fc;
+    }
+
+    .options input {
+      width: auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .stat {
+      display: inline-block;
+      background: #edf3f9;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 6px;
+    }
+
+    #confirmation {
+      color: #19733c;
+      font-weight: 700;
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      color: #66788b;
+      padding: 25px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+
+      h1 {
+        font-size: 23px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .options {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<header>
+  <div class="header-content">
+
+    <!-- ✏️ تكدرين تغيرين هذا العنوان -->
+    <h1>نظام تقييم البرامج التدريبية</h1>
+
+    <!-- ✏️ وتغيرين هذا النص أيضاً -->
+    <div>نظام إلكتروني لتقييم البرامج التدريبية وأداء المدرب</div>
+
+  </div>
+</header>
+
+
+<main>
+
+
+
+  <div class="tabs">
+
+    <button onclick="showTab('trainee')">
+      واجهة المتدرب
+    </button>
+
+    <button
+      class="secondary"
+      onclick="showTab('admin')"
+    >
+      لوحة الإدارة التجريبية
+    </button>
+
+  </div>
+
+
+  <!-- واجهة المتدرب -->
+
+  <section id="trainee" class="panel">
+
+    <h2>استمارة التقييم</h2>
+
+    <label>الدورة التدريبية</label>
+
+    <select id="course"></select>
+
+
+    <label>نوع الاستمارة</label>
+
+    <select id="kind" onchange="renderQuestions()">
+
+      <option value="lecturer">
+        تقييم أداء المحاضر
+      </option>
+
+      <option value="program">
+        التقييم العام للبرنامج التدريبي
+      </option>
+
+    </select>
+
+
+    <form
+      id="evaluation"
+      onsubmit="submitEvaluation(event)"
+    >
+
+      <div id="questions"></div>
+
+      <br>
+
+      <button type="submit">
+        إرسال التقييم
+      </button>
+
+    </form>
+
+    <p id="confirmation"></p>
+
+  </section>
+
+
+
+  <!-- لوحة الإدارة -->
+
+  <section id="admin" class="panel hidden">
+
+    <h2>لوحة الإدارة</h2>
+
+    <p>
+      هذه اللوحة تجريبية حالياً، وسيتم لاحقاً إضافة تسجيل دخول آمن للدكتور.
+    </p>
+
+    <label>اسم دورة جديدة</label>
+
+    <input
+      id="newCourse"
+      placeholder="مثال: دورة إعداد المدربين"
+    >
+
+    <br><br>
+
+    <button onclick="addCourse()">
+      إضافة الدورة
+    </button>
+
+
+    <h3>الدورات التدريبية</h3>
+
+    <div id="courseList"></div>
+
+
+    <h3>ملخص الردود</h3>
+
+    <div id="stats"></div>
+
+
+    <br>
+
+    <button
+      class="secondary"
+      onclick="exportCSV()"
+    >
+      تصدير الردود CSV
+    </button>
+
+    <button
+      class="danger"
+      onclick="clearResponses()"
+    >
+      مسح الردود التجريبية
+    </button>
+
+  </section>
+
+</main>
+
+
+<footer>
+  نظام تقييم البرامج التدريبية
+</footer>
+
+
+<script>
+
+
+/* ==================================================
+   استمارة تقييم أداء المحاضر
+================================================== */
+
+const lecturerQuestions = {
+
+  "التخطيط": [
+
+    "درجة التمكن من المادة والثقة بالنفس",
+
+    "مدى الترتيب وتناسق الخطبة",
+
+    "وضوح الهدف وحسن اختيار الموضوع",
+
+    "مناسبة الحديث للجمهور"
+
+  ],
+
+
+  "الإعداد": [
+
+    "الاستفادة من الإمكانات المتوفرة في المكان",
+
+    "وسائل الإيضاح كثيرة",
+
+    "وسائل الإيضاح معدة جيداً",
+
+    "وسائل الإيضاح متنوعة",
+
+    "تعامل المحاضر مع وسائل الإيضاح جيد"
+
+  ],
+
+
+  "تسلسل الحديث": [
+
+    "المقدمة قوية وواضحة وتشد الجمهور",
+
+    "وضوح النقاط الرئيسية والفرعية",
+
+    "استعمال الاستشهادات بكثرة",
+
+    "المعلومات جديدة ومفيدة ومقنعة",
+
+    "الخاتمة قوية وواضحة ومؤثرة"
+
+  ],
+
+
+  "الإلقاء": [
+
+    "المظهر العام لائق",
+
+    "الوقوف والمشي فعال",
+
+    "حركات اليدين مناسبة وفعالة",
+
+    "تعابير الوجه مناسبة وفعالة",
+
+    "نظرات العينين موزعة جيداً",
+
+    "طبقات الصوت وتعبيراته فعالة",
+
+    "الوقفات بين الكلمات والجمل صحيحة",
+
+    "الابتسامة والفكاهة والمرح",
+
+    "اللغة بسيطة ومناسبة والجمل قصيرة",
+
+    "الانتقال فعال بين النقاط الرئيسية والفرعية"
+
+  ],
+
+
+  "تقييم الأداء والختام": [
+
+    "الالتزام بالوقت ضمن المعقول",
+
+    "انتباه ومشاركة الجمهور مستمرة",
+
+    "إدارة الأسئلة والنقاش بفعالية",
+
+    "استماع المحاضر للجمهور",
+
+    "إدارة المشاكل والمقاطعات والإزعاج"
+
+  ]
+
+};
+
+
+
+/* ==================================================
+   التقييم العام للبرنامج التدريبي
+================================================== */
+
+const programQuestions = {
+
+
+  "التنظيم الإداري للبرنامج": [
+
+    "تاريخ عقد البرنامج",
+
+    "مدة تنفيذ البرنامج",
+
+    "عدد ساعات التدريب اليومية",
+
+    "قاعة التدريب (السعة / الإضاءة)",
+
+    "خدمات التغذية",
+
+    "الاستراحات",
+
+    "تجانس المتدربين علمياً",
+
+    "وسائل العرض التدريبية",
+
+    "المادة العلمية"
+
+  ],
+
+
+  "المحتوى العلمي والأهداف": [
+
+    "توافق أهداف البرنامج مع احتياجاتك"
+
+  ],
+
+
+  "أساليب التدريب المستخدمة": [
+
+    "أساليب التدريب التي اتبعت",
+
+    "الموازنة بين الجانب النظري والتطبيقي",
+
+    "استخدام وسائل الإيضاح مع التدريب"
+
+  ],
+
+
+  "المدرب (المحاضر)": [
+
+    "الالتزام بالموعد المحدد للمحاضرة",
+
+    "تمكنه من المادة العلمية",
+
+    "القدرة على الشرح وتوصيل المعلومات"
+
+  ]
+
+};
+
+
+
+/* ==================================================
+   درجات التقييم
+================================================== */
+
+const scales = {
+
+  lecturer: [
+
+    "١ - ضعيف",
+
+    "٢ - مقبول",
+
+    "٣ - جيد",
+
+    "٤ - جيد جداً",
+
+    "٥ - ممتاز"
+
+  ],
+
+
+  program: [
+
+    "ضعيف",
+
+    "متوسط",
+
+    "جيد",
+
+    "جيد جداً",
+
+    "ممتاز"
+
+  ]
+
+};
+
+
+
+/* ==================================================
+   البيانات التجريبية
+================================================== */
+
+function loadData(key, fallback) {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(key)
+    ) ?? fallback;
+
+  }
+
+  catch {
+
+    return fallback;
+
+  }
+
+}
+
+
+let courses =
+  loadData(
+    "training_courses",
+    ["دورة تدريبية تجريبية"]
+  );
+
+
+let responses =
+  loadData(
+    "training_responses",
+    []
+  );
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    "training_courses",
+    JSON.stringify(courses)
+  );
+
+  localStorage.setItem(
+    "training_responses",
+    JSON.stringify(responses)
+  );
+
+}
+
+
+
+/* ==================================================
+   التنقل بين الواجهات
+================================================== */
+
+function showTab(tab) {
+
+  document
+    .getElementById("trainee")
+    .classList
+    .toggle(
+      "hidden",
+      tab !== "trainee"
+    );
+
+
+  document
+    .getElementById("admin")
+    .classList
+    .toggle(
+      "hidden",
+      tab !== "admin"
+    );
+
+
+  renderAdmin();
+
+}
+
+
+
+/* ==================================================
+   عرض الدورات
+================================================== */
+
+function renderCourses() {
+
+  const select =
+    document.getElementById("course");
+
+
+  select.innerHTML =
+    courses
+      .map(
+        (course, index) =>
+          `<option value="${index}">
+            ${course}
+          </option>`
+      )
+      .join("");
+
+}
+
+
+
+/* ==================================================
+   عرض الأسئلة
+================================================== */
+
+function renderQuestions() {
+
+  const kind =
+    document.getElementById("kind").value;
+
+
+  const groups =
+    kind === "lecturer"
+      ? lecturerQuestions
+      : programQuestions;
+
+
+  const scale =
+    scales[kind];
+
+
+  let html = "";
+
+  let questionNumber = 0;
+
+
+  for (
+    const [heading, questions]
+    of Object.entries(groups)
+  ) {
+
+    html += `<h3>${heading}</h3>`;
+
+
+    for (const question of questions) {
+
+      const id =
+        "q" + questionNumber++;
+
+
+      html += `
+
+        <div class="question">
+
+          <div class="question-title">
+            ${question}
+          </div>
+
+          <div class="options">
+
+            ${scale
+              .map(
+                (score, index) => `
+
+                  <label>
+
+                    <input
+                      required
+                      type="radio"
+                      name="${id}"
+                      value="${index + 1}"
+                    >
+
+                    ${score}
+
+                  </label>
+
+                `
+              )
+              .join("")}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  if (kind === "program") {
+
+    html += `
+
+      <label>
+        الرجاء الإفادة بأية ملاحظات أخرى
+        (اختياري)
+      </label>
+
+      <textarea
+        id="notes"
+        placeholder="اكتب ملاحظاتك هنا..."
+      ></textarea>
+
+    `;
+
+  }
+
+
+  document
+    .getElementById("questions")
+    .innerHTML = html;
+
+
+  document
+    .getElementById("confirmation")
+    .textContent = "";
+
+}
+
+
+
+/* ==================================================
+   إرسال التقييم
+================================================== */
+
+function submitEvaluation(event) {
+
+  event.preventDefault();
+
+
+  const formData =
+    new FormData(event.target);
+
+
+  const kind =
+    document.getElementById("kind").value;
+
+
+  const groups =
+    kind === "lecturer"
+      ? lecturerQuestions
+      : programQuestions;
+
+
+  const answers = {};
+
+  let index = 0;
+
+
+  for (
+    const questions
+    of Object.values(groups)
+  ) {
+
+    for (
+      const question
+      of questions
+    ) {
+
+      answers[question] =
+        Number(
+          formData.get(
+            "q" + index++
+          )
+        );
+
+    }
+
+  }
+
+
+  responses.push({
+
+    course:
+      courses[
+        Number(
+          document
+            .getElementById("course")
+            .value
+        )
+      ],
+
+    kind: kind,
+
+    date:
+      new Date().toISOString(),
+
+    answers: answers,
+
+    notes:
+      kind === "program"
+        ? document
+            .getElementById("notes")
+            ?.value || ""
+        : ""
+
+  });
+
+
+  saveData();
+
+
+  event.target.reset();
+
+
+  document
+    .getElementById("confirmation")
+    .textContent =
+      "تم حفظ التقييم بنجاح ✅";
+
+
+  renderAdmin();
+
+}
+
+
+
+/* ==================================================
+   إضافة دورة
+================================================== */
+
+function addCourse() {
+
+  const input =
+    document.getElementById("newCourse");
+
+
+  const name =
+    input.value.trim();
+
+
+  if (!name) {
+
+    alert(
+      "يرجى كتابة اسم الدورة أولاً"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    courses.includes(name)
+  ) {
+
+    alert(
+      "هذه الدورة موجودة مسبقاً"
+    );
+
+    return;
+
+  }
+
+
+  courses.push(name);
+
+  saveData();
+
+  input.value = "";
+
+  renderCourses();
+
+  renderAdmin();
+
+}
+
+
+
+/* ==================================================
+   لوحة الإدارة
+================================================== */
+
+function renderAdmin() {
+
+  document
+    .getElementById("courseList")
+    .innerHTML =
+
+      courses
+        .map(
+          course =>
+            `<div class="stat">
+              ${course}
+            </div>`
+        )
+        .join("");
+
+
+  document
+    .getElementById("stats")
+    .innerHTML = `
+
+      <div class="stat">
+
+        عدد الدورات:
+        <strong>
+          ${courses.length}
+        </strong>
+
+      </div>
+
+
+      <div class="stat">
+
+        عدد الردود:
+        <strong>
+          ${responses.length}
+        </strong>
+
+      </div>
+
+    `;
+
+}
+
+
+
+/* ==================================================
+   مسح الردود
+================================================== */
+
+function clearResponses() {
+
+  const confirmDelete =
+    confirm(
+      "هل تريدين مسح جميع الردود التجريبية؟"
+    );
+
+
+  if (!confirmDelete)
+    return;
+
+
+  responses = [];
+
+  saveData();
+
+  renderAdmin();
+
+}
+
+
+
+/* ==================================================
+   تصدير CSV
+================================================== */
+
+function exportCSV() {
+
+  const rows = [
+
+    [
+      "الدورة",
+      "نوع الاستمارة",
+      "التاريخ",
+      "السؤال",
+      "الدرجة",
+      "الملاحظات"
+    ]
+
+  ];
+
+
+  for (
+    const response
+    of responses
+  ) {
+
+    for (
+      const [question, score]
+      of Object.entries(
+        response.answers
+      )
+    ) {
+
+      rows.push([
+
+        response.course,
+
+        response.kind,
+
+        response.date,
+
+        question,
+
+        score,
+
+        response.notes
+
+      ]);
+
+    }
+
+  }
+
+
+  const csv =
+
+    "\ufeff" +
+
+    rows
+      .map(
+        row =>
+          row
+            .map(
+              item =>
+                `"${String(item ?? "")
+                  .replace(/"/g, '""')}"`
+            )
+            .join(",")
+      )
+      .join("\r\n");
+
+
+  const file =
+    new Blob(
+      [csv],
+      {
+        type:
+          "text/csv;charset=utf-8"
+      }
+    );
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.href =
+    URL.createObjectURL(file);
+
+
+  link.download =
+    "training-evaluations.csv";
+
+
+  link.click();
+
+}
+
+
+
+/* ==================================================
+   تشغيل الموقع
+================================================== */
+
+renderCourses();
+
+renderQuestions();
+
+renderAdmin();
+
+
+</script>
+
+</body>
+</html>

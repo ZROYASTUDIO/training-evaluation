@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>لوحة إدارة التقييمات</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --main: #17375c;
+      --blue: #195b97;
+      --background: #f3f6fa;
+      --border: #dce5ef;
+      --text: #1b2938;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Cairo", Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--main);
+      color: white;
+      padding: 24px;
+    }
+
+    header div {
+      max-width: 950px;
+      margin: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 27px;
+    }
+
+    main {
+      max-width: 950px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 5px 18px rgba(30, 50, 80, 0.06);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: #edf3f9;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .number {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--main);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #bbc8d6;
+      border-radius: 10px;
+      font-family: "Cairo";
+      font-size: 15px;
+      margin: 8px 0 12px;
+    }
+
+    button {
+      font-family: "Cairo";
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 17px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 4px;
+    }
+
+    .danger {
+      background: #a53434;
+    }
+
+    .secondary {
+      background: #e5edf6;
+      color: #183958;
+    }
+
+    .course {
+      border-bottom: 1px solid #e5ebf2;
+      padding: 13px 0;
+    }
+
+    .course:last-child {
+      border-bottom: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th,
+    td {
+      padding: 11px;
+      border: 1px solid #dbe4ee;
+      text-align: center;
+    }
+
+    th {
+      background: #edf3f9;
+    }
+
+    .note {
+      background: #fff5d9;
+      padding: 13px;
+      border-radius: 10px;
+      color: #725509;
+      margin-bottom: 18px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+
+      h1 {
+        font-size: 22px;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<header>
+  <div>
+    <h1>لوحة إدارة تقييم البرامج التدريبية</h1>
+    <div>إدارة الدورات ومتابعة التقييمات</div>
+  </div>
+</header>
+
+
+<main>
+
+  <div class="note">
+    هذه لوحة إدارة تجريبية. عند نشر النظام نهائياً سيتم إضافة تسجيل دخول آمن للدكتور.
+  </div>
+
+
+  <section class="card">
+
+    <h2>ملخص النظام</h2>
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="number" id="courseCount">0</div>
+        <div>عدد الدورات</div>
+      </div>
+
+      <div class="stat">
+        <div class="number" id="responseCount">0</div>
+        <div>عدد التقييمات</div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>إضافة دورة تدريبية</h2>
+
+    <input
+      id="newCourse"
+      placeholder="اكتب اسم الدورة التدريبية"
+    >
+
+    <button onclick="addCourse()">
+      إضافة الدورة
+    </button>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>الدورات التدريبية</h2>
+
+    <div id="courseList"></div>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>ملخص التقييمات</h2>
+
+    <div id="resultsTable"></div>
+
+  </section>
+
+
+  <section class="card">
+
+    <button onclick="exportCSV()">
+      تصدير النتائج CSV
+    </button>
+
+    <button
+      class="danger"
+      onclick="clearResponses()"
+    >
+      مسح الردود التجريبية
+    </button>
+
+    <a href="index.html">
+      <button class="secondary">
+        فتح واجهة المتدرب
+      </button>
+    </a>
+
+  </section>
+
+</main>
+
+
+<script>
+
+function loadData(key, fallback) {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(key)
+    ) ?? fallback;
+
+  }
+
+  catch {
+
+    return fallback;
+
+  }
+
+}
+
+
+let courses =
+  loadData(
+    "training_courses",
+    ["دورة تدريبية تجريبية"]
+  );
+
+
+let responses =
+  loadData(
+    "training_responses",
+    []
+  );
+
+
+function saveData() {
+
+  localStorage.setItem(
+    "training_courses",
+    JSON.stringify(courses)
+  );
+
+  localStorage.setItem(
+    "training_responses",
+    JSON.stringify(responses)
+  );
+
+}
+
+
+function addCourse() {
+
+  const input =
+    document.getElementById("newCourse");
+
+  const name =
+    input.value.trim();
+
+
+  if (!name) {
+
+    alert("اكتب اسم الدورة أولاً");
+
+    return;
+
+  }
+
+
+  if (courses.includes(name)) {
+
+    alert("هذه الدورة موجودة مسبقاً");
+
+    return;
+
+  }
+
+
+  courses.push(name);
+
+  saveData();
+
+  input.value = "";
+
+  render();
+
+}
+
+
+function clearResponses() {
+
+  if (
+    !confirm(
+      "هل تريد مسح جميع الردود التجريبية؟"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  responses = [];
+
+  saveData();
+
+  render();
+
+}
+
+
+function exportCSV() {
+
+  const rows = [
+
+    [
+      "الدورة",
+      "نوع الاستمارة",
+      "التاريخ",
+      "السؤال",
+      "الدرجة",
+      "الملاحظات"
+    ]
+
+  ];
+
+
+  responses.forEach(response => {
+
+    Object.entries(
+      response.answers
+    ).forEach(
+      ([question, score]) => {
+
+        rows.push([
+
+          response.course,
+
+          response.kind,
+
+          response.date,
+
+          question,
+
+          score,
+
+          response.notes || ""
+
+        ]);
+
+      }
+    );
+
+  });
+
+
+  const csv =
+
+    "\ufeff" +
+
+    rows
+      .map(
+        row =>
+          row
+            .map(
+              value =>
+                `"${String(value)
+                  .replace(/"/g, '""')}"`
+            )
+            .join(",")
+      )
+      .join("\r\n");
+
+
+  const blob =
+    new Blob(
+      [csv],
+      {
+        type: "text/csv;charset=utf-8"
+      }
+    );
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.href =
+    URL.createObjectURL(blob);
+
+
+  link.download =
+    "training-evaluation-results.csv";
+
+
+  link.click();
+
+}
+
+
+function render() {
+
+  document
+    .getElementById("courseCount")
+    .textContent =
+      courses.length;
+
+
+  document
+    .getElementById("responseCount")
+    .textContent =
+      responses.length;
+
+
+  document
+    .getElementById("courseList")
+    .innerHTML =
+
+      courses
+        .map(
+          course => {
+
+            const count =
+              responses.filter(
+                response =>
+                  response.course === course
+              ).length;
+
+            return `
+
+              <div class="course">
+
+                <strong>
+                  ${course}
+                </strong>
+
+                <div>
+                  عدد التقييمات:
+                  ${count}
+                </div>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+  if (responses.length === 0) {
+
+    document
+      .getElementById("resultsTable")
+      .innerHTML =
+        "لا توجد تقييمات محفوظة حالياً.";
+
+    return;
+
+  }
+
+
+  let html = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>الدورة</th>
+
+          <th>نوع التقييم</th>
+
+          <th>التاريخ</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+  `;
+
+
+  responses.forEach(
+    response => {
+
+      html += `
+
+        <tr>
+
+          <td>
+            ${response.course}
+          </td>
+
+          <td>
+            ${
+              response.kind === "lecturer"
+                ? "تقييم المحاضر"
+                : "تقييم البرنامج"
+            }
+          </td>
+
+          <td>
+            ${
+              new Date(
+                response.date
+              ).toLocaleString("ar-IQ")
+            }
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  html += `
+
+      </tbody>
+
+    </table>
+
+  `;
+
+
+  document
+    .getElementById("resultsTable")
+    .innerHTML = html;
+
+}
+
+
+render();
+
+</script>
+
+</body>
+
+</html>
