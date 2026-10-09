@@ -283,14 +283,21 @@ button{
       >
         تحديث النتائج
       </button>
+<button
+  id="logoutButton"
+  class="logout"
+  type="button"
+>
+  تسجيل الخروج
+</button>
 
-      <button
-        id="logoutButton"
-        class="logout"
-        type="button"
-      >
-        تسجيل الخروج
-      </button>
+<button
+  id="deleteAllButton"
+  class="logout"
+  type="button"
+>
+  حذف جميع التقييمات
+</button>
     </div>
   </div>
 
@@ -794,11 +801,22 @@ function createResponseHTML(
         </div>
 
       </div>
+<div class="details">
 
-      <div class="details">
-        ${answerRows}
-        ${notes}
-      </div>
+  ${answerRows}
+
+  ${notes}
+
+  <button
+    class="logout"
+    type="button"
+    onclick="deleteResponse(${item.id})"
+    style="margin-top:15px;"
+  >
+    حذف هذا التقييم
+  </button>
+
+</div>
 
     </div>
 
@@ -991,6 +1009,78 @@ async function addCourse(){
     session.access_token
   );
 }
+  async function deleteResponse(id) {
+
+  if (!confirm("هل تريد حذف هذا التقييم نهائياً؟")) {
+    return;
+  }
+
+  const session = getSession();
+
+  if (!session) {
+    logout();
+    return;
+  }
+
+  const response = await fetch(
+    SUPABASE_REST_URL + "/responses?id=eq." + id,
+    {
+      method: "DELETE",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization":
+          "Bearer " + session.access_token
+      }
+    }
+  );
+
+  if (!response.ok) {
+    alert("تعذر حذف التقييم.");
+    return;
+  }
+
+  await loadResponses(
+    session.access_token
+  );
+}
+  async function deleteAllResponses() {
+
+  if (
+    !confirm(
+      "هل تريد حذف جميع التقييمات؟ لا يمكن التراجع عن هذه العملية."
+    )
+  ) {
+    return;
+  }
+
+  const session = getSession();
+
+  if (!session) {
+    logout();
+    return;
+  }
+
+  const response = await fetch(
+    SUPABASE_REST_URL + "/responses?id=gt.0",
+    {
+      method: "DELETE",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization":
+          "Bearer " + session.access_token
+      }
+    }
+  );
+
+  if (!response.ok) {
+    alert("تعذر حذف جميع التقييمات.");
+    return;
+  }
+
+  await loadResponses(
+    session.access_token
+  );
+}
 /* ========================================
    الأحداث
 ======================================== */
@@ -1023,7 +1113,12 @@ document.getElementById(
   "click",
   logout
 );
-
+document.getElementById(
+  "deleteAllButton"
+).addEventListener(
+  "click",
+  deleteAllResponses
+);
 
 document.getElementById(
   "refreshButton"
