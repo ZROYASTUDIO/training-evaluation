@@ -569,7 +569,7 @@ async function loadCourses() {
     const response = await fetch(
 
       SUPABASE_API_URL +
-      "/courses?select=name&active=eq.true&order=id.asc",
+      "/courses?select=name,lecturer_name&active=eq.true&order=id.asc",
 
       {
         headers: supabaseHeaders
@@ -592,12 +592,8 @@ async function loadCourses() {
       await response.json();
 
 
-    courses =
-      data.map(
-        item => item.name
-      );
-
-
+    courses =data;
+  
     if (courses.length === 0) {
 
       courseSelect.innerHTML =
