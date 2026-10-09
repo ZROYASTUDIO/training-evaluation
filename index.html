@@ -607,19 +607,18 @@ async function loadCourses() {
 
     }
 
+courseSelect.innerHTML =
+  courses
+    .map(
+      (course, index) => `
+        <option value="${index}">
+          ${course.name}
+        </option>
+      `
+    )
+    .join("");
 
-    courseSelect.innerHTML =
-      courses
-        .map(
-          (course, index) => `
-
-            <option value="${index}">
-              ${course}
-            </option>
-
-          `
-        )
-        .join("");
+updateLecturerName();
 
   }
 
@@ -646,7 +645,28 @@ async function loadCourses() {
 /* =========================================================
    عرض الأسئلة
 ========================================================= */
+function updateLecturerName() {
 
+  const courseSelect =
+    document.getElementById("course");
+
+  const lecturerInput =
+    document.getElementById("lecturerName");
+
+  if (
+    courseSelect.value === "" ||
+    !courses[Number(courseSelect.value)]
+  ) {
+    lecturerInput.value = "";
+    return;
+  }
+
+  const selectedCourse =
+    courses[Number(courseSelect.value)];
+
+  lecturerInput.value =
+    selectedCourse.lecturer_name || "غير محدد";
+}
 function renderQuestions() {
 
   const kind =
@@ -850,15 +870,29 @@ async function submitEvaluation(event) {
 
   }
 
+const selectedCourse =
+  courses[
+    Number(courseSelect.value)
+  ];
 
-  const course =
-    courses[
-      Number(
-        courseSelect.value
-      )
-    ];
+const course =
+  selectedCourse.name;
 
+const lecturerName =
+  selectedCourse.lecturer_name || "";
 
+const traineeName =
+  document
+    .getElementById("traineeName")
+    .value
+    .trim();
+  if (!traineeName) {
+  showMessage(
+    "يرجى كتابة اسم المتدرب.",
+    "error"
+  );
+  return;
+}
   const notesElement =
     document.getElementById(
       "notes"
@@ -898,19 +932,21 @@ async function submitEvaluation(event) {
           ...supabaseHeaders,
           "Prefer": "return=minimal"
         },
+body: JSON.stringify({
 
-        body: JSON.stringify({
+  course_name: course,
 
-          course_name: course,
+  lecturer_name: lecturerName,
 
-          form_type: kind,
+  trainee_name: traineeName,
 
-          answers: answers,
+  form_type: kind,
 
-          notes: notes
+  answers: answers,
 
-        })
+  notes: notes
 
+})
       }
 
     );
@@ -1027,7 +1063,12 @@ document
     submitEvaluation
   );
 
-
+document
+  .getElementById("course")
+  .addEventListener(
+    "change",
+    updateLecturerName
+  );
 renderQuestions();
 
 loadCourses();
