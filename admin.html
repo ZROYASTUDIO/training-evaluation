@@ -931,16 +931,28 @@ async function loadCoursesForAdmin(accessToken){
   const data = await response.json();
 
   document.getElementById("coursesList").innerHTML =
-    data.length
-      ? data.map(course => `
-          <div class="response-card">
-            <div class="details">
-              <strong>${escapeHTML(course.name)}</strong><br>
-              المحاضر:
-              ${escapeHTML(course.lecturer_name || "غير محدد")}
-            </div>
-          </div>
-        `).join("")
+    data.map(course => `
+  <div class="response-card">
+    <div class="details">
+
+      <strong>${escapeHTML(course.name)}</strong><br>
+
+      المحاضر:
+      ${escapeHTML(course.lecturer_name || "غير محدد")}
+
+      <br><br>
+
+      <button
+        class="logout"
+        type="button"
+        onclick="deleteCourse(${course.id})"
+      >
+        حذف الدورة
+      </button>
+
+    </div>
+  </div>
+`).join("")
       : "لا توجد دورات حالياً.";
 }
 
@@ -953,7 +965,40 @@ async function addCourse(){
     logout();
     return;
   }
+async function deleteCourse(id) {
 
+  if (!confirm("هل تريد حذف هذه الدورة نهائياً؟")) {
+    return;
+  }
+
+  const session = getSession();
+
+  if (!session) {
+    logout();
+    return;
+  }
+
+  const response = await fetch(
+    SUPABASE_REST_URL + "/courses?id=eq." + id,
+    {
+      method: "DELETE",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization":
+          "Bearer " + session.access_token
+      }
+    }
+  );
+
+  if (!response.ok) {
+    alert("تعذر حذف الدورة.");
+    return;
+  }
+
+  await loadCoursesForAdmin(
+    session.access_token
+  );
+}
   const courseName =
     document.getElementById("newCourseName").value.trim();
 
