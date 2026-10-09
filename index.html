@@ -100,9 +100,9 @@
       margin: 15px 0 7px;
       font-weight: 700;
     }
-
-    select,
-    textarea {
+input,
+select,
+textarea {
       width: 100%;
       font-family: "Cairo", sans-serif;
       font-size: 15px;
@@ -249,7 +249,19 @@
     <h2>
       استمارة التقييم
     </h2>
+<label
+  class="field-label"
+  for="traineeName"
+>
+  اسم المتدرب
+</label>
 
+<input
+  id="traineeName"
+  type="text"
+  placeholder="اكتب اسم المتدرب"
+  required
+>
 
     <label
       class="field-label"
@@ -265,7 +277,19 @@
       </option>
 
     </select>
+<label
+  class="field-label"
+  for="lecturerName"
+>
+  اسم المحاضر
+</label>
 
+<input
+  id="lecturerName"
+  type="text"
+  placeholder="يظهر تلقائياً بعد اختيار الدورة"
+  readonly
+>
 
     <label
       class="field-label"
