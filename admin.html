@@ -931,8 +931,8 @@ async function loadCoursesForAdmin(accessToken){
   const data = await response.json();
 
   document.getElementById("coursesList").innerHTML =
-    data.map(course => `
-  <div class="response-card">
+data.length ? data.map(course => `
+<div class="response-card">
     <div class="details">
 
       <strong>${escapeHTML(course.name)}</strong><br>
