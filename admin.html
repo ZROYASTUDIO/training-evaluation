@@ -580,8 +580,7 @@ async function loadResponses(
       await fetch(
 
         SUPABASE_REST_URL +
-        "//responses?select=id,course_name,trainee_name,trainee_email,,lecturer_name,form_type,answers,notes,created_at&order=created_at.desc",
-
+"/responses?select=id,course_name,trainee_name,trainee_email,lecturer_name,form_type,answers,notes,created_at&order=created_at.desc",
         {
           headers:{
             "apikey":SUPABASE_KEY,
