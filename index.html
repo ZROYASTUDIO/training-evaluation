@@ -269,6 +269,18 @@ style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
   required
 >
 
+<label class="field-label" for="traineeEmail">
+  البريد الإلكتروني للمتدرب
+</label>
+
+<input
+  id="traineeEmail"
+  type="email"
+  placeholder="أدخل البريد الإلكتروني"
+  autocomplete="email"
+  required
+>
+
     <label
       class="field-label"
       for="course"
@@ -892,6 +904,9 @@ const traineeName =
     .getElementById("traineeName")
     .value
     .trim();
+  const traineeEmail = document
+  .getElementById("traineeEmail")
+  ?.value.trim() || "";
   if (!traineeName) {
   showMessage(
     "يرجى كتابة اسم المتدرب.",
@@ -944,7 +959,8 @@ body: JSON.stringify({
 
   lecturer_name: lecturerName,
 
-  trainee_name: traineeName,
+traiee_name: traineeName,
+trainee_email: traineeEmail,
 
   form_type: kind,
 
