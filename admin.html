@@ -814,7 +814,10 @@ const finalGrade = finalPercentage === null
 <div class="meta">
   المتدرب: ${escapeHTML(item.trainee_name || "غير محدد")}
 </div>
-
+<div class="meta">
+  البريد الإلكتروني للمتدرب:
+  ${escapeHTML(item.trainee_email || "غير متوفر")}
+</div>
 <div class="meta">
   المحاضر: ${escapeHTML(item.lecturer_name || "غير محدد")}
 </div>
