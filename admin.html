@@ -743,7 +743,23 @@ function createResponseHTML(
 
   const answers =
     item.answers || {};
+const scores = Object.values(answers)
+  .map(Number)
+  .filter(score => Number.isFinite(score) && score >= 1 && score <= 5);
 
+const totalScore = scores.reduce((sum, score) => sum + score, 0);
+
+const finalPercentage = scores.length
+  ? (totalScore / (scores.length * 5)) * 100
+  : null;
+
+const finalGrade = finalPercentage === null
+  ? "لا توجد درجات"
+  : finalPercentage >= 90 ? "ممتاز"
+  : finalPercentage >= 80 ? "جيد جداً"
+  : finalPercentage >= 70 ? "جيد"
+  : finalPercentage >= 60 ? "متوسط"
+  : "ضعيف";
 
   const answerRows =
     Object.entries(answers)
@@ -786,7 +802,15 @@ function createResponseHTML(
 <div class="response-title">
   ${escapeHTML(item.course_name || "")}
 </div>
+<div class="meta" style="font-weight:bold; color:#1565C0;">
 
+  التقييم النهائي:
+
+  ${finalPercentage === null ? "لا توجد درجات" : finalPercentage.toFixed(1) + "%"}
+
+  — ${finalGrade}
+
+</div>
 <div class="meta">
   المتدرب: ${escapeHTML(item.trainee_name || "غير محدد")}
 </div>
